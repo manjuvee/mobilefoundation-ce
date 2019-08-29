@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server>
+
+    <!-- Enable features -->
+    <featureManager>
+
+        <!-- Begin of features added by IBM MobileFirst <installPush> ant task for context root '/imfpush'. -->
+        <!-- The following lines will be removed when the application is uninstalled -->
+        <feature>jdbc-4.1</feature>
+        <feature>servlet-3.1</feature>
+        <feature>ssl-1.0</feature>
+        <!-- End of features added by IBM MobileFirst <installPush> ant task for context root '/imfpush'. -->
+
+
+        <!-- Begin of features added by IBM MobileFirst <installmobilefirstadmin> ant task for context root '/mfpadmin'. -->
+        <!-- The following lines will be removed when the application is uninstalled -->
+        <feature>jdbc-4.1</feature>
+        <feature>appSecurity-2.0</feature>
+        <feature>restConnector-2.0</feature>
+        <!-- End of features added by IBM MobileFirst <installmobilefirstadmin> ant task for context root '/mfpadmin'. -->
+
+
+        <!-- Begin of features added by IBM MobileFirst <installAnalytics> ant task for context root '/analytics-service'. -->
+        <!-- The following lines will be removed when the application is uninstalled -->
+        <feature>jsp-2.3</feature>
+        <feature>jndi-1.0</feature>
+        <feature>appSecurity-2.0</feature>
+        <!-- End of features added by IBM MobileFirst <installAnalytics> ant task for context root '/analytics-service'. -->
+
+
+        <!-- Begin of features added by IBM MobileFirst <installAdapterGenerator> ant task for context root '/mfpadaptergenerator'. -->
+        <!-- The following lines will be removed when the application is uninstalled -->
+        <feature>jsp-2.3</feature>
+        <feature>jndi-1.0</feature>
+        <feature>appSecurity-2.0</feature>
+        <!-- End of features added by IBM MobileFirst <installAdapterGenerator> ant task for context root '/mfpadaptergenerator'. -->
+
+
+        <!-- Begin of features added by IBM MobileFirst <installmobilefirstruntime> ant task for context root '/mfp'. -->
+        <!-- The following lines will be removed when the application is uninstalled -->
+        <feature>jdbc-4.1</feature>
+        <feature>servlet-3.1</feature>
+        <feature>ssl-1.0</feature>
+        <!-- End of features added by IBM MobileFirst <installmobilefirstruntime> ant task for context root '/mfp'. -->
+
+    </featureManager>
+
+    <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
+    <httpEndpoint id="defaultHttpEndpoint"
+                  httpPort="${default.http.port}"
+                  httpsPort="9443" host="*" >
+
+        <!-- Option soReuseAddr added by IBM MobileFirst <installPush> ant task for context root '/imfpush'. -->
+        <!-- Option soReuseAddr added by IBM MobileFirst <installmobilefirstadmin> ant task for context root '/mfpadmin'. -->
+        <!-- Option soReuseAddr added by IBM MobileFirst <installAnalytics> ant task for context root '/analytics-service'. -->
+        <!-- Option soReuseAddr added by IBM MobileFirst <installAdapterGenerator> ant task for context root '/mfpadaptergenerator'. -->
+        <!-- Option soReuseAddr added by IBM MobileFirst <installmobilefirstruntime> ant task for context root '/mfp'. -->
+        <tcpOptions soReuseAddr="true"/>
+
+    </httpEndpoint>
+
+	<!-- Remove the excessive Wink logging from messages.log -->
+	<logging traceSpecification="org.apache.wink.*=warning"/>
+
+    <application context-root="doc" id="swagger-ui" location="mfp-server-swagger-ui.war" name="swagger-ui" type="war"/>
+
+    <!-- JNDI for the swagger ui, so the admin console can present a link to open the adapter information in the swagger ui -->
+    <jndiEntry jndiName="mfpadmin/mfp.server.swagger.ui.url" value="/doc/?url=/&lt;context&gt;/api/adapterdoc/&lt;adapterName&gt;"/>
+
+
+    <!--    WebContainer statement.
+        [Added by IBM MobileFirst Platform Foundation <installPush> Ant task for context root '/imfpush']
+        [Added by IBM MobileFirst Platform Foundation <installmobilefirstadmin> Ant task for context root '/mfpadmin']
+        [Added by IBM MobileFirst Platform Foundation <installAnalytics> Ant task for context root '/analytics-service']
+        [Added by IBM MobileFirst Platform Foundation <installAdapterGenerator> Ant task for context root '/mfpadaptergenerator']
+        [Added by IBM MobileFirst Platform Foundation <installmobilefirstruntime> Ant task for context root '/mfp']
+    -->
+    <webContainer deferServletLoad="false"/>
+
+    <!--    Derby library added by IBM MobileFirst.
+        [Added by IBM MobileFirst Platform Foundation <installPush> Ant task for context root '/imfpush']
+        [Added by IBM MobileFirst Platform Foundation <installmobilefirstadmin> Ant task for context root '/mfpadmin']
+        [Added by IBM MobileFirst Platform Foundation <installmobilefirstruntime> Ant task for context root '/mfp']
+        Declare the jar file for Derby with the "embedded" deployment option.
+    -->
+    <library id="DerbyLib">
+        <fileset dir="${shared.resource.dir}" includes="derby.jar"/>
+    </library>
+
+    <!-- Begin of configuration added by IBM MobileFirst <installPush> ant task for context root '/imfpush'. -->
+
+    <!-- Declare the MobileFirst Push application. -->
+    <application id="imfpush" name="imfpush" location="mfp-push-service.war" type="war">
+        <classloader delegation="parentLast">
+            </classloader>
+    </application>
+
+    <!-- Declare the JNDI properties for the MobileFirst Push. -->
+    <jndiEntry jndiName="imfpush/mfp.push.analytics.endpoint" value="http://localhost:${default.http.port}/analytics-service/rest"/>
+    <jndiEntry jndiName="imfpush/mfp.push.analytics.user" value="admin"/>
+    <jndiEntry jndiName="imfpush/mfp.push.analytics.password" value="admin"/>
+    <jndiEntry jndiName="imfpush/mfp.push.services.ext.analytics" value="com.ibm.mfp.push.server.analytics.plugin.AnalyticsPlugin"/>
+    <jndiEntry jndiName="imfpush/mfp.push.authorization.server.url" value="http://localhost:${default.http.port}/mfp/api"/>
+    <jndiEntry jndiName="imfpush/mfp.push.authorization.client.id" value="push"/>
+    <jndiEntry jndiName="imfpush/mfp.push.authorization.client.secret" value="hsup"/>
+    <jndiEntry jndiName="imfpush/mfp.push.services.ext.security" value="com.ibm.mfp.push.server.security.plugin.OAuthSecurityPlugin"/>
+    <jndiEntry jndiName="imfpush/mfp.push.db.type" value="DB"/>
+
+
+    <!-- Declare the IBM MobileFirst Server Push database. -->
+    <dataSource jndiName="imfpush/jdbc/imfPushDS" transactional="false">
+        <jdbcDriver libraryRef="DerbyLib"/>
+        <properties.derby.embedded databaseName="${wlp.install.dir}/databases/MFPPUSH" user="MFPPUSH"/>
+    </dataSource>
+
+    <!-- End of configuration added by IBM MobileFirst <installPush> ant task for context root '/imfpush'. -->
+
+
+    <!--    IBM MobileFirst requires SSL and declared the "defaultKeyStore" default keystore.
+        [Added by IBM MobileFirst Platform Foundation <installmobilefirstadmin> Ant task for context root '/mfpadmin']
+    This configuration is the minimum one that you need to create an SSL configuration.
+    With this configuration, the Liberty server creates the keystore and the certificate,
+    if it does not exist yet, during the SSL initialization.
+    The created certificate is a self-signed certificate that is valid for 365 days.
+    Do not use the certificates that the Liberty server created for production use.
+    For more information see  http://pic.dhe.ibm.com/infocenter/wasinfo/v8r5/topic/com.ibm.websphere.wlp.core.doc/ae/twlp_sec_ssl.html
+    -->
+    <keyStore id="defaultKeyStore" password="mobilefirst"/>
+
+    <administrator-role>
+        <!--    MobileFirst JMX User.
+        [Added by IBM MobileFirst Platform Foundation <installmobilefirstadmin> Ant task for context root '/mfpadmin']
+        -->
+        <user>MfpRESTUser</user>
+
+    </administrator-role>
+    <!--    MobileFirst JNDI property for JMX connection.
+        [Added by IBM MobileFirst Platform Foundation <installmobilefirstadmin> Ant task for context root '/mfpadmin']
+    -->
+    <jndiEntry jndiName="mfp.admin.jmx.host" value="localhost"/>
+    <!--    MobileFirst JNDI property for JMX connection.
+        [Added by IBM MobileFirst Platform Foundation <installmobilefirstadmin> Ant task for context root '/mfpadmin']
+    -->
+    <jndiEntry jndiName="mfp.admin.jmx.port" value="9443"/>
+    <!--    MobileFirst JNDI property for JMX connection.
+        [Added by IBM MobileFirst Platform Foundation <installmobilefirstadmin> Ant task for context root '/mfpadmin']
+    -->
+    <jndiEntry jndiName="mfp.admin.jmx.user" value="MfpRESTUser"/>
+    <!--    MobileFirst JNDI property for JMX connection.
+        [Added by IBM MobileFirst Platform Foundation <installmobilefirstadmin> Ant task for context root '/mfpadmin']
+    -->
+    <jndiEntry jndiName="mfp.admin.jmx.pwd" value="sDEeP6ut2vVt"/>
+    <!--    MobileFirst JNDI property for JMX connection.
+        [Added by IBM MobileFirst Platform Foundation <installmobilefirstadmin> Ant task for context root '/mfpadmin']
+    -->
+    <jndiEntry jndiName="mfp.topology.platform" value="Liberty"/>
+    <!--    MobileFirst JNDI property for JMX connection.
+        [Added by IBM MobileFirst Platform Foundation <installmobilefirstadmin> Ant task for context root '/mfpadmin']
+    -->
+    <jndiEntry jndiName="mfp.topology.clustermode" value="Standalone"/>
+
+    <basicRegistry>
+        <!--    MobileFirst user.
+        [Added by IBM MobileFirst Platform Foundation <installmobilefirstadmin> Ant task for context root '/mfpadmin']
+        -->
+        <user name="configUser_mfpadmin" password="eTDzceZebhTy"/>
+
+        <!--    MobileFirst user.
+        [Added by IBM MobileFirst Platform Foundation <installmobilefirstadmin> Ant task for context root '/mfpadmin']
+        -->
+        <user name="MfpRESTUser" password="sDEeP6ut2vVt"/>
+
+        <!--    MobileFirst user.
+        [Added by IBM MobileFirst Platform Foundation <installmobilefirstadmin> Ant task for context root '/mfpadmin']
+        [Added by IBM MobileFirst Platform Foundation <installAnalytics> Ant task for context root '/analytics-service']
+        [Added by IBM MobileFirst Platform Foundation <installAdapterGenerator> Ant task for context root '/mfpadaptergenerator']
+        -->
+        <user name="admin" password="admin"/>
+        
+        <!--    MobileFirst user.
+        [Added by IBM MobileFirst Platform Foundation <installapplicationcenter> Ant task for context root '/applicationcenter'] 
+        -->
+        <user name="appcenteradmin" password="admin"/>
+
+        <!--    IBM Application Center group.
+        [Added by IBM MobileFirst Platform Foundation <installapplicationcenter> Ant task for context root '/applicationcenter'] 
+        -->
+        <group name="appcentergroup">
+            <!--    IBM Application Center group member.
+            [Added by IBM MobileFirst Platform Foundation <installapplicationcenter> Ant task for context root '/applicationcenter'] 
+            -->
+            <member name="admin"/>
+
+            <!--    IBM Application Center group member.
+            [Added by IBM MobileFirst Platform Foundation <installapplicationcenter> Ant task for context root '/applicationcenter'] 
+            -->
+            <member name="appcenteradmin"/>
+
+        </group>
+
+
+    </basicRegistry>
+
+    <!-- Begin of configuration added by IBM MobileFirst <installmobilefirstadmin> ant task for context root '/mfpadmin'. -->
+
+    <!-- Declare the MobileFirst Administration Service application. -->
+    <application id="mfpadmin" name="mfpadmin" location="mfp-admin-service.war" type="war">
+        <application-bnd>
+            <security-role name="mfpadmin">
+                <user name="admin"/>
+
+            </security-role>
+
+            <security-role name="mfpdeployer">
+                <user name="configUser_mfpadmin"/>
+
+            </security-role>
+
+            <security-role name="mfpmonitor">
+            </security-role>
+
+            <security-role name="mfpoperator">
+            </security-role>
+
+        </application-bnd>
+
+        <classloader delegation="parentLast">
+            </classloader>
+    </application>
+
+    <!-- Declare the JNDI properties for the MobileFirst Administration Service. -->
+    <jndiEntry jndiName="mfpadmin/mfp.admin.push.url" value="http://localhost:${default.http.port}/imfpush"/>
+    <jndiEntry jndiName="mfpadmin/mfp.admin.authorization.server.url" value="http://localhost:${default.http.port}/mfp"/>
+    <jndiEntry jndiName="mfpadmin/mfp.push.authorization.client.id" value="push"/>
+    <jndiEntry jndiName="mfpadmin/mfp.push.authorization.client.secret" value="hsup"/>
+    <jndiEntry jndiName="mfpadmin/mfp.admin.authorization.client.id" value="admin"/>
+    <jndiEntry jndiName="mfpadmin/mfp.admin.authorization.client.secret" value="nimda"/>
+    <jndiEntry jndiName="mfpadmin/mfp.admin.enable.adapter.generation" value="true"/>
+    <jndiEntry jndiName="mfpadmin/mfp.config.service.user" value="configUser_mfpadmin"/>
+    <jndiEntry jndiName="mfpadmin/mfp.config.service.password" value="eTDzceZebhTy"/>
+
+
+    <!-- Declare the IBM MobileFirst Administration database. -->
+    <dataSource jndiName="mfpadmin/jdbc/mfpAdminDS" transactional="false">
+        <jdbcDriver libraryRef="DerbyLib"/>
+        <properties.derby.embedded databaseName="${wlp.install.dir}/databases/MFPADMIN" user="MFPADMIN"/>
+    </dataSource>
+
+    <!-- Declare the MobileFirst Administration Console application. -->
+    <application id="mfpconsole" name="mfpconsole" location="mfp-admin-ui.war" type="war">
+        <application-bnd>
+            <security-role name="mfpadmin">
+                <user name="admin"/>
+
+            </security-role>
+
+            <security-role name="mfpdeployer">
+            </security-role>
+
+            <security-role name="mfpmonitor">
+            </security-role>
+
+            <security-role name="mfpoperator">
+            </security-role>
+
+        </application-bnd>
+
+        <classloader delegation="parentLast">
+            </classloader>
+    </application>
+
+    <!-- Declare the JNDI properties for the MobileFirst Administration Console. -->
+    <jndiEntry jndiName="mfpconsole/mfp.admin.endpoint" value="*://*:*/mfpadmin"/>
+    <jndiEntry jndiName="mfpconsole/mfp.adapter-extension.endpoint" value="*://*:*/mfpadaptergenerator"/>
+
+
+    <!-- Declare the MobileFirst Live Update application. -->
+    <application id="mfpadminconfig" name="mfpadminconfig" location="mfp-config-service.war" type="war">
+        <application-bnd>
+            <security-role name="configadmin">
+                <user name="configUser_mfpadmin"/>
+
+            </security-role>
+
+        </application-bnd>
+
+        <classloader delegation="parentLast">
+            </classloader>
+    </application>
+
+    <!-- Declare the JNDI properties for the MobileFirst Live Update. -->
+
+
+    <!-- Declare the IBM MobileFirst Configuration database. -->
+    <dataSource jndiName="mfpadminconfig/jdbc/ConfigDS" transactional="false">
+        <jdbcDriver libraryRef="DerbyLib"/>
+        <properties.derby.embedded databaseName="${wlp.install.dir}/databases/MFPCFG" user='"MFPCFG"'/>
+    </dataSource>
+
+    <!-- End of configuration added by IBM MobileFirst <installmobilefirstadmin> ant task for context root '/mfpadmin'. -->
+
+
+    <!-- Begin of configuration added by IBM MobileFirst <installAnalytics> ant task for context root '/analytics-service'. -->
+
+    <!-- Declare the MobileFirst Operational Analytics Service application. -->
+    <application id="analytics-service" name="analytics-service" location="analytics.ear" type="ear">
+        <application-bnd>
+            <security-role name="analytics_administrator">
+                <user name="admin"/>
+
+            </security-role>
+
+            <security-role name="analytics_infrastructure">
+            </security-role>
+
+            <security-role name="analytics_support">
+            </security-role>
+
+            <security-role name="analytics_developer">
+            </security-role>
+
+            <security-role name="analytics_business">
+            </security-role>
+
+        </application-bnd>
+
+    </application>
+
+    <!-- Declare the JNDI properties for the MobileFirst Operational Analytics Service. -->
+    <jndiEntry jndiName="analytics/shards" value='"1"'/>
+
+
+    <!-- Declare the MobileFirst Operational Analytics Console application. -->
+    <!-- <application id="analytics" name="analytics" location="analytics-war-ui.war" type="war">
+        <application-bnd>
+            <security-role name="analytics_administrator">
+                <user name="admin"/>
+
+            </security-role>
+
+            <security-role name="analytics_infrastructure">
+            </security-role>
+
+            <security-role name="analytics_support">
+            </security-role>
+
+            <security-role name="analytics_developer">
+            </security-role>
+
+            <security-role name="analytics_business">
+            </security-role>
+
+        </application-bnd>
+
+    </application> -->
+
+    <!-- Declare the JNDI properties for the MobileFirst Operational Analytics Console. -->
+    <jndiEntry jndiName="analyticsconsole/mfp.analytics.url" value='"*://*:*/analytics-service"'/>
+
+
+    <!-- End of configuration added by IBM MobileFirst <installAnalytics> ant task for context root '/analytics-service'. -->
+
+
+    <!-- Begin of configuration added by IBM MobileFirst <installAdapterGenerator> ant task for context root '/mfpadaptergenerator'. -->
+
+    <!-- Declare the MobileFirst Operational Adapter Generator Service application. -->
+    <application id="mfpadaptergenerator" name="mfpadaptergenerator" location="mfpadaptergenerator.war" type="war">
+        <application-bnd>
+            <security-role name="mfpadmin">
+                <user name="admin"/>
+
+            </security-role>
+
+            <security-role name="mfpdeployer">
+            </security-role>
+
+            <security-role name="mfpmonitor">
+            </security-role>
+
+            <security-role name="mfpoperator">
+            </security-role>
+
+        </application-bnd>
+
+        <classloader delegation="parentLast">
+            </classloader>
+    </application>
+
+    <!-- Declare the JNDI properties for the MobileFirst Operational Adapter Generator Service. -->
+
+
+    <!-- End of configuration added by IBM MobileFirst <installAdapterGenerator> ant task for context root '/mfpadaptergenerator'. -->
+
+
+    <!-- Begin of configuration added by IBM MobileFirst <installmobilefirstruntime> ant task for context root '/mfp'. -->
+
+    <!-- Declare the MobileFirst Runtime application. -->
+    <application id="mfp" name="mfp" location="mfp-server.war" type="war">
+        <classloader delegation="parentLast">
+            </classloader>
+    </application>
+
+    <!-- Declare the JNDI properties for the MobileFirst Runtime. -->
+    <jndiEntry jndiName="mfp/mfp.analytics.url" value="http://localhost:${default.http.port}/analytics-service/rest"/>
+    <jndiEntry jndiName="mfp/mfp.analytics.console.url" value="../analytics/console"/>
+    <jndiEntry jndiName="mfp/mfp.analytics.username" value="admin"/>
+    <jndiEntry jndiName="mfp/mfp.analytics.password" value="admin"/>
+    <jndiEntry jndiName="mfp/mfp.authorization.server" value="embedded"/>
+
+
+    <!-- Declare the IBM MobileFirst Server Runtime database. -->
+    <dataSource jndiName="mfp/jdbc/mfpDS" transactional="false">
+        <jdbcDriver libraryRef="DerbyLib"/>
+        <properties.derby.embedded databaseName="${wlp.install.dir}/databases/MFPDATA" user='"MFPDATA"'/>
+    </dataSource>
+
+    <!-- End of configuration added by IBM MobileFirst <installmobilefirstruntime> ant task for context root '/mfp'. -->
+    <!-- Declare the IBM Application Center Console application. -->
+    <application id="appcenterconsole" name="appcenterconsole" location="appcenterconsole.war" type="war">
+        <application-bnd>
+            <security-role name="appcenteradmin">
+                <group name="appcentergroup"/>
+            </security-role>
+        </application-bnd>
+    </application>
+
+    <!-- Declare the IBM Application Center Services application. -->
+    <application id="applicationcenter" name="applicationcenter" location="applicationcenter.war" type="war">
+        <application-bnd>
+            <security-role name="appcenteradmin">
+                <group name="appcentergroup"/>
+            </security-role>
+        </application-bnd>
+        <classloader delegation="parentLast"/>
+    </application>
+
+    <!-- Declare the JNDI properties for the IBM Application Center. -->
+
+    <!-- Declare the IBM Application Center database. -->
+    <dataSource jndiName="jdbc/AppCenterDS" transactional="false">
+        <jdbcDriver libraryRef="DerbyLib"/>
+        <properties.derby.embedded databaseName="${wlp.install.dir}/databases/APPCENTER" user="APPCENTER"/>
+    </dataSource>
+
+</server>

@@ -1,0 +1,384 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.ibm.mfp</groupId>
+		<artifactId>mfp-base</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>ibm-mobilefoundation-ce</artifactId>
+	<name>ibm-mobilefoundation-ce</name>
+	<version>2.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<image.tag>1.1.0</image.tag>
+		<mfp.ce.name>ibm-mobilefoundation-ce</mfp.ce.name>
+		<mfp.ce.repository>${env.REPO_URL}/ibm-mobilefoundation-ce</mfp.ce.repository>
+                <mfp.ce.dockerhub.repository>ibmcom/ibm-mobilefoundation-ce</mfp.ce.dockerhub.repository>
+		<output.directory>${basedir}/target</output.directory>
+		<output.dependency.directory>${output.directory}/mfpf-libs</output.dependency.directory>
+		<analytics.ear.filename>analytics.ear</analytics.ear.filename>
+		<mfpadmin.war.filename>mfp-admin-service.war</mfpadmin.war.filename>
+		<mfpconsole.war.filename>mfp-admin-ui.war</mfpconsole.war.filename>
+		<mfpconfig.war.filename>mfp-config-service.war</mfpconfig.war.filename>
+		<mfpserver.war.filename>mfp-server.war</mfpserver.war.filename>
+		<mfppush.war.filename>mfp-push-service.war</mfppush.war.filename>
+		<mfpdev.artifacts.war.filename>mfp-dev-artifacts.war</mfpdev.artifacts.war.filename>
+		<mfpswagger.war.filename>mfp-server-swagger-ui.war</mfpswagger.war.filename>
+		<mfpappcenter.war.filename>applicationcenter.war</mfpappcenter.war.filename>
+		<mfpappcenterconsole.war.filename>appcenterconsole.war</mfpappcenterconsole.war.filename>
+		<antdeployer.jar.filename>mfp-ant-deployer.jar</antdeployer.jar.filename>
+		<mfp.buildtools.version>Main-SNAPSHOT</mfp.buildtools.version>
+                <mfp.ce.dockerhub.push.skip>false</mfp.ce.dockerhub.push.skip>
+               
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>mfp.analytics</groupId>
+			<artifactId>analytics-ear</artifactId>
+			<version>${mfp.analytics.version}</version>
+			<type>ear</type>
+		</dependency>
+		<dependency>
+			<groupId>mfp.administration</groupId>
+			<artifactId>mfp-admin-service</artifactId>
+			<version>${mfp.administration.version}</version>
+			<scope>provided</scope>
+			<classifier>cloud</classifier>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>com.ibm.mfp</groupId>
+			<artifactId>mfp-server-swagger-ui</artifactId>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>mfp.administration</groupId>
+			<artifactId>mfp-admin-ui</artifactId>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>mfp.configuration</groupId>
+			<artifactId>configuration-service</artifactId>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>mfp.server</groupId>
+			<artifactId>mfp-server-war</artifactId>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>mfp.push</groupId>
+			<artifactId>mfp-push-service-all</artifactId>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>com.ibm.mfp</groupId>
+			<artifactId>mfp-dev-artifacts</artifactId>
+			<version>${mfp-dev-artifacts-parent-version}</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>com.ibm.mobile</groupId>
+			<artifactId>ApplicationCenterConsole</artifactId>
+			<version>Main-SNAPSHOT</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>com.ibm.mobile</groupId>
+			<artifactId>ApplicationCenterServices</artifactId>
+			<version>Main-SNAPSHOT</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derby</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.worklight</groupId>
+			<artifactId>worklight-build-tools</artifactId>
+			<version>${mfp.buildtools.version}</version>
+			<classifier>ant-deployer</classifier>
+		</dependency>
+	</dependencies>
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>com.ibm.plugin</groupId>
+					<artifactId>imp-maven-license-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>ibmconfidential-copyright-check</id>
+							<goals>
+								<goal>check</goal>
+							</goals>
+							<configuration>
+								<excludes combine.children="append">
+									<exclude>**/*.xml</exclude>
+									<exclude>**/*.options</exclude>
+									<exclude>**/*.mf</exclude>
+									<exclude>**/*Dockerfile</exclude>
+									<exclude>**/*.war</exclude>
+									<exclude>**/*.sh</exclude>
+									<exclude>**/.jazzignore</exclude>
+									<exclude>**/*.txt</exclude>
+									<exclude>**/*.adapter</exclude>
+									<exclude>**/*.wlapp</exclude>
+									<exclude>**/*.conf</exclude>
+									<exclude>**/*.env</exclude>
+									<exclude>**/*</exclude>
+									<exclude>**/test/**</exclude>
+									<exclude>**/*.json</exclude>
+									<exclude>**/*.zip</exclude>
+								</excludes>
+							</configuration>
+						</execution>
+						<execution>
+							<id>licensedmaterials-copyright-check</id>
+							<goals>
+								<goal>check</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>clean dangling images</id>
+							<phase>clean</phase>
+							<goals>
+								<goal>run</goal>
+							</goals>
+							<configuration>
+								<target>
+									<exec executable="docker" failonerror="true">
+										<arg value="image"/>
+										<arg value="prune"/>
+										<arg value="-f"/>
+									</exec>
+								</target>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>com.spotify</groupId>
+					<artifactId>dockerfile-maven-plugin</artifactId>
+					<version>1.4.10</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>com.ibm.plugin</groupId>
+				<artifactId>imp-maven-license-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy image artifacts</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${output.directory}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}</directory>
+									<excludes>
+										<exclude>pom.xml</exclude>
+										<exclude>target</exclude>
+										<exclude>.classpath</exclude>
+										<exclude>.project</exclude>
+										<exclude>.gitignore</exclude>
+										<exclude>.settings</exclude>
+									</excludes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy dependencies for image</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<includeGroupIds>mfp.analytics,mfp.administration,mfp.server,mfp.configuration,mfp.push,com.ibm.mfp,com.ibm.mobile,org.apache.derby</includeGroupIds>
+							<outputDirectory>${output.dependency.directory}</outputDirectory>
+							<stripClassifier>true</stripClassifier>
+							<stripVersion>true</stripVersion>
+							<excludeTransitive>true</excludeTransitive>
+							<overWriteReleases>true</overWriteReleases>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>rename files for image</id>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<phase>compile</phase>
+						<configuration>
+							<target>
+								<move
+									file="${output.dependency.directory}/analytics-ear.ear"
+									tofile="${output.dependency.directory}/${analytics.ear.filename}" />
+								<move
+									file="${output.dependency.directory}/mfp-server-war.war"
+									tofile="${output.dependency.directory}/${mfpserver.war.filename}" />
+								<move
+									file="${output.dependency.directory}/mfp-admin-service.war"
+									tofile="${output.dependency.directory}/${mfpadmin.war.filename}" />
+								<move
+									file="${output.dependency.directory}/mfp-admin-ui.war"
+									tofile="${output.dependency.directory}/${mfpconsole.war.filename}" />
+								<move
+									file="${output.dependency.directory}/configuration-service.war"
+									tofile="${output.dependency.directory}/${mfpconfig.war.filename}" />
+								<move
+									file="${output.dependency.directory}/mfp-push-service-all.war"
+									tofile="${output.dependency.directory}/${mfppush.war.filename}" />
+								<move
+									file="${output.dependency.directory}/ApplicationCenterServices.war"
+									tofile="${output.dependency.directory}/${mfpappcenter.war.filename}" />
+								<move
+									file="${output.dependency.directory}/ApplicationCenterConsole.war"
+									tofile="${output.dependency.directory}/${mfpappcenterconsole.war.filename}" />
+							</target>
+						</configuration>
+					</execution>
+					<execution>
+						<id>create derby databases for image</id>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<phase>generate-resources</phase>
+						<configuration>
+							<target>
+								<echo
+									message="using mfp-ant-deployer.jar at ${maven.dependency.com.worklight.worklight-build-tools.ant-deployer.jar.path}" />
+								<taskdef resource="com/ibm/mfp/ant/defaults.properties">
+									<classpath>
+										<!-- Use the derby.jar from Studio because it has a different version 
+											than the one embedded in worklight-ant-deployer.jar. -->
+										<pathelement
+											location="${output.dependency.directory}/derby.jar" />
+										<pathelement
+											location="${maven.dependency.com.worklight.worklight-build-tools.ant-deployer.jar.path}" />
+									</classpath>
+								</taskdef>
+								<delete dir="${project.build.directory}/databases" />
+								<configuredatabase kind="MobileFirstAdmin">
+									<derby datadir="${project.build.directory}/databases"
+										database="MFPADMIN" schema="MFPADMIN" />
+								</configuredatabase>
+								<configuredatabase kind="MobileFirstRuntime">
+									<derby datadir="${project.build.directory}/databases"
+										database="MFPDATA" />
+								</configuredatabase>
+								<configuredatabase kind="Push">
+									<derby datadir="${project.build.directory}/databases"
+										database="MFPPUSH" />
+								</configuredatabase>
+								<configuredatabase kind="MobileFirstConfig">
+									<derby datadir="${project.build.directory}/databases"
+										database="MFPCFG" />
+								</configuredatabase>
+								<configuredatabase kind="ApplicationCenter">
+									<derby datadir="${project.build.directory}/databases"
+										database="APPCENTER" />
+								</configuredatabase>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>${mfp.ce.name} amd64 image</id>
+						<phase>package</phase>
+						<goals>
+							<goal>build</goal>
+							<goal>tag</goal>
+						        <goal>push</goal>	
+						</goals>
+						<configuration>
+							<repository>${mfp.ce.repository}</repository>
+							<tag>${image.tag}-amd64</tag>
+							<buildArgs>
+									<ARCH>amd64</ARCH>
+							</buildArgs>
+							<retryCount>0</retryCount>
+							<googleContainerRegistryEnabled>false</googleContainerRegistryEnabled>
+							<pullNewerImage>false</pullNewerImage>
+							<skipDockerInfo>true</skipDockerInfo>
+							<contextDirectory>${output.directory}</contextDirectory>
+						</configuration>
+					</execution>
+                                 <execution>
+                                                <id>${mfp.ce.name} docker image</id>
+                                               <phase>package</phase>
+                                                <goals>
+                                                      <goal>build</goal>
+                                                      <goal>tag</goal>                                                         
+                                                      <goal>push</goal>
+                                                </goals>
+                                                <configuration>
+                                                        <repository>${mfp.ce.dockerhub.repository}</repository>
+                                                        <tag>${image.tag}</tag>
+                                                        <retryCount>0</retryCount>
+                                                        <googleContainerRegistryEnabled>false</googleContainerRegistryEnabled>
+                                                        <pullNewerImage>false</pullNewerImage>
+                                                        <skipDockerInfo>true</skipDockerInfo>
+                                                        <contextDirectory>${output.directory}</contextDirectory>
+                                                        <skip>${mfp.ce.dockerhub.push.skip}</skip>
+                                                </configuration>
+
+                                        </execution>
+
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<profiles>
+		<profile>
+			<id>prod</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<dockerfile.push.skip>true</dockerfile.push.skip>
+				<dockerfile.pullNewerImage>false</dockerfile.pullNewerImage>
+				<mfp.ce.repository>${mfp.ce.name}</mfp.ce.repository>
+			</properties>
+		</profile>
+	</profiles>
+</project>
