@@ -13,8 +13,7 @@ This repository holds the code for the IBM Mobile Foundation CE image creation a
 ## A. Clone the git project and build the docker image.
 
   1. Open the terminal and clone the git project.
-
-	```
+        ```
 	git clone git@github.com:manjuvee/mobilefoundation-ce.git
 	```
 
@@ -28,6 +27,7 @@ This repository holds the code for the IBM Mobile Foundation CE image creation a
 ## B. Testing the docker image before pushing to the kube.
 
     1. Run the docker image by executing the below command.
+    
     	```
         docker run -d -p 9080:9080 -p 9443:9443 ibm-mobilefoundation-ce:1.1.0-amd64
     	```
@@ -46,8 +46,7 @@ This repository holds the code for the IBM Mobile Foundation CE image creation a
     ```
   2. Get the list of clusters.
     ```
-      ibmcloud cs get clusters
-
+    	ibmcloud cs get clusters
     ```
   3. Get the kube cluster config.
   ```
@@ -55,7 +54,7 @@ This repository holds the code for the IBM Mobile Foundation CE image creation a
 
   ```
   4. Set the cluster-config on the terminal. i.e the o/p of the step C 3
-```
+  ```
   Ex :
   export KUBECONFIG=/Users/manjunath/.bluemix/plugins/container-service/clusters/mycluster/kube-config-hou02-mycluster.yml
   ```
@@ -68,10 +67,10 @@ This repository holds the code for the IBM Mobile Foundation CE image creation a
 	Example:
 	docker tag 0fb26f65ffb2 us.icr.io/manju1/ibm-mobilefoundation-ce:1.0.0
 	docker push us.icr.io/manju1/ibm-mobilefoundation-ce:1.0.0
-	```
+   ```
   6. Create a mfpf-deploy.yaml for creating Service and Deployment by updating the image url in the below yaml.
 
-```
+
 vi mfpf-deploy.yaml 
 ```
 apiVersion: v1
