@@ -72,8 +72,7 @@ This repository holds the code for the IBM Mobile Foundation CE image creation a
   6. Create a mfpf-deploy.yaml for creating Service and Deployment by updating the image url in the below yaml.
 
 ```
-vi mfpf-deploy.yaml
-```  
+vi mfpf-deploy.yaml 
 ```
 apiVersion: v1
 kind: Service
