@@ -15,6 +15,7 @@ This repository holds the code for the IBM Mobile Foundation CE image creation a
   1. Open the terminal and clone the git project.
         ```
 	git clone git@github.com:manjuvee/mobilefoundation-ce.git
+	
 	```
 
   2. Run the Maven command to build the docker image.
